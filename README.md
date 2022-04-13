@@ -1,2 +1,2 @@
 # operator-resource-mapping
-Operator Resource Mapping (ORM) is a mechanism to allow Kubeturbo to manage resources in an Operator managed Kubernetes cluster, for example to vertically scale containers or horizontally scale pods.
+Operator Resource Mapping (ORM) is a mechanism to achieve configuration consistency between running deployments and CustomResource, for example operator managed applications with VPA and HPA
