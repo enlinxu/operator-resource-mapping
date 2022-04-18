@@ -20,16 +20,31 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+type SourceResourceSpec struct {
+	// A string represent the type of the controller
+	kind string `json:"kind,omitempty"`
+	// Array of componentNames controlled by the ORM instance
+	componentNames []string `json:"componentNames,omitempty"`
+}
+
+type ResourceMappingTemplate struct {
+	srcPath string `json:"srcPath,omitempty"`
+	destPath string `json:"destPath,omitempty"`
+}
+
+type ResourceMapping struct {
+	// A string represent the type of the controller
+	srcResourceSpec SourceResourceSpec `json:"srcResourceSpec,omitempty"`
+	// Array of componentNames controlled by the ORM instance
+	resourceMappingTemplates []ResourceMappingTemplate `json:"resourceMappingTemplates,omitempty"`
+}
 
 // OperatorResourceMappingSpec defines the desired state of OperatorResourceMapping
 type OperatorResourceMappingSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of OperatorResourceMapping. Edit operatorresourcemapping_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// A string represent the type of the controller
+	resourceMappings []ResourceMapping `json:"resourceMappings,omitempty"`
 }
 
 // OperatorResourceMappingStatus defines the observed state of OperatorResourceMapping
