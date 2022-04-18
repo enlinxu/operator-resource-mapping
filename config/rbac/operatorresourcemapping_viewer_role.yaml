@@ -1,0 +1,20 @@
+# permissions for end users to view operatorresourcemappings.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: operatorresourcemapping-viewer-role
+rules:
+- apiGroups:
+  - turbonomic.io
+  resources:
+  - operatorresourcemappings
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - turbonomic.io
+  resources:
+  - operatorresourcemappings/status
+  verbs:
+  - get

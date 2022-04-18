@@ -3,4 +3,13 @@ layout:
 - go.kubebuilder.io/v3
 projectName: operator-resource-mapping
 repo: github.com/enlinxu/operator-resource-mapping
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: turbonomic.io
+  kind: OperatorResourceMapping
+  path: github.com/enlinxu/operator-resource-mapping/api/v1alpha1
+  version: v1alpha1
 version: "3"
