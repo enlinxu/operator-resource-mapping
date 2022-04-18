@@ -1,0 +1,6 @@
+domain: turbonomic.io
+layout:
+- go.kubebuilder.io/v3
+projectName: operator-resource-mapping
+repo: github.com/enlinxu/operator-resource-mapping
+version: "3"
