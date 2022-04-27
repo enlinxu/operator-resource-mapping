@@ -1,34 +1,18 @@
-/*
-Copyright 2022.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package controllers
 
 import (
 	"context"
 	"fmt"
-
-	turbonomiciov1alpha1 "github.com/enlinxu/operator-resource-mapping/api/v1alpha1"
+	martinv1alpha1 "github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1"
+	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
-// OperatorResourceMappingReconciler reconciles a OperatorResourceMapping object
-type OperatorResourceMappingReconciler struct {
+type ProjectReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
 }
@@ -46,9 +30,18 @@ type OperatorResourceMappingReconciler struct {
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.11.0/pkg/reconcile
-func (r *OperatorResourceMappingReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
-	fmt.Printf("In reconcile")
+	fmt.Printf("In project reconcile")
+	cr := &martinv1alpha1.Project{}
+	err := r.Get(context.TODO(), req.NamespacedName, cr)
+	if err != nil {
+		if errors.IsNotFound(err) {
+			return reconcile.Result{}, nil
+		}
+		// Other errors reading the object - requeue the request.
+		return reconcile.Result{}, err
+	}
 
 	// TODO(user): your logic here
 
@@ -56,8 +49,8 @@ func (r *OperatorResourceMappingReconciler) Reconcile(ctx context.Context, req c
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *OperatorResourceMappingReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *ProjectReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&turbonomiciov1alpha1.OperatorResourceMapping{}).
+		For(&martinv1alpha1.Project{}).
 		Complete(r)
 }

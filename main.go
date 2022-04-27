@@ -18,6 +18,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
@@ -33,6 +34,7 @@ import (
 
 	turbonomiciov1alpha1 "github.com/enlinxu/operator-resource-mapping/api/v1alpha1"
 	"github.com/enlinxu/operator-resource-mapping/controllers"
+	martinv1alpha1 "github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -45,10 +47,13 @@ func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
 	utilruntime.Must(turbonomiciov1alpha1.AddToScheme(scheme))
+	utilruntime.Must(martinv1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
 func main() {
+	fmt.Printf("In main")
+
 	var metricsAddr string
 	var enableLeaderElection bool
 	var probeAddr string
@@ -83,6 +88,14 @@ func main() {
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "OperatorResourceMapping")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.ProjectReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Project")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder

@@ -23,31 +23,31 @@ import (
 // SourceResourceSpec defines the kind and components name controlled by the ORM instance
 type SourceResourceSpec struct {
 	// A string represent the type of the controller
-	kind string `json:"kind,omitempty"`
+	Kind string `json:"kind,omitempty"`
 	// Array of componentNames controlled by the ORM instance
-	componentNames []string `json:"componentNames,omitempty"`
+	ComponentNames []string `json:"componentNames,omitempty"`
 }
 
 // ResourceMappingTemplate defines the mapping between source path and destination path
 type ResourceMappingTemplate struct {
 	// A string represents the source path in the deployment
-	srcPath string `json:"srcPath,omitempty"`
+	SrcPath string `json:"srcPath,omitempty"`
 	// A string represents the destination path in the CR (CustomResource)
-	destPath string `json:"destPath,omitempty"`
+	DestPath string `json:"destPath,omitempty"`
 }
 
 // ResourceMapping combines the SourceResourceSpec and the ResourceMappingTemplate
 type ResourceMapping struct {
 	// srcResourceSpec defines the kind and components name controlled by the ORM instance
-	srcResourceSpec SourceResourceSpec `json:"srcResourceSpec,omitempty"`
+	SrcResourceSpec SourceResourceSpec `json:"srcResourceSpec,omitempty"`
 	// resourceMappingTemplates defines an array of the mapping between source path and destination path
-	resourceMappingTemplates []ResourceMappingTemplate `json:"resourceMappingTemplates,omitempty"`
+	ResourceMappingTemplates []ResourceMappingTemplate `json:"resourceMappingTemplates,omitempty"`
 }
 
 // OperatorResourceMappingSpec defines the desired state of OperatorResourceMapping
 type OperatorResourceMappingSpec struct {
 	// An array of ResourceMapping definition
-	resourceMappings []ResourceMapping `json:"resourceMappings,omitempty"`
+	ResourceMappings []ResourceMapping `json:"resourceMappings,omitempty"`
 }
 
 // OperatorResourceMappingStatus defines the observed state of OperatorResourceMapping
