@@ -34,6 +34,7 @@ import (
 
 	turbonomiciov1alpha1 "github.com/enlinxu/operator-resource-mapping/api/v1alpha1"
 	"github.com/enlinxu/operator-resource-mapping/controllers"
+	v1 "github.com/jaegertracing/jaeger-operator/apis/v1"
 	martinv1alpha1 "github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1"
 	//+kubebuilder:scaffold:imports
 )
@@ -48,6 +49,7 @@ func init() {
 
 	utilruntime.Must(turbonomiciov1alpha1.AddToScheme(scheme))
 	utilruntime.Must(martinv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(v1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -95,7 +97,15 @@ func main() {
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Project")
+		setupLog.Error(err, "unable to create Project controller", "controller", "Project")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.JaegerReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create Jaeger controller", "controller", "Jaeger")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder
